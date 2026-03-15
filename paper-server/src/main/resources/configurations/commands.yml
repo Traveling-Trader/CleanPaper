@@ -1,0 +1,5 @@
+# File Reference: https://docs.papermc.io/paper/reference/bukkit-commands-configuration/
+
+command-block-overrides: []
+ignore-vanilla-permissions: false
+aliases: {}
