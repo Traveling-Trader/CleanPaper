@@ -206,13 +206,13 @@ public class SimpleHelpMap implements HelpMap {
             return wrapper.helpCommandNamespace;
         }
         if (command instanceof BukkitCommand) {
-            return "Bukkit";
+            return "CleanPaper";
         }
         return null;
     }
 
     private boolean commandInIgnoredPlugin(Command command, Set<String> ignoredPlugins) {
-        if ((command instanceof BukkitCommand) && ignoredPlugins.contains("Bukkit")) {
+        if ((command instanceof BukkitCommand) && ignoredPlugins.contains("CleanPaper")) {
             return true;
         }
         if (command instanceof PluginIdentifiableCommand && ignoredPlugins.contains(((PluginIdentifiableCommand) command).getPlugin().getName())) {

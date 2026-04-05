@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +31,8 @@ public class HelpCommand extends BukkitCommand {
         super("help");
         this.description = "Shows the help menu";
         this.usageMessage = "/help <pageNumber>\n/help <topic>\n/help <topic> <pageNumber>";
-        this.setAliases(Arrays.asList(new String[]{"?"}));
-        this.setPermission("bukkit.command.help");
+        this.setAliases(Collections.emptyList());
+        this.setPermission("cleanpaper.command.help");
     }
 
     @Override

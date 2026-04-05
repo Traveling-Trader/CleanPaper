@@ -100,8 +100,8 @@ public class PaperCommands implements Commands, PaperRegistrar<LifecycleEventOwn
         final LiteralCommandNode<CommandSourceStack> pluginLiteral = PaperBrigadier.copyLiteral(namespace + ":" + literal, node);
 
         final Set<String> registeredLabels = new HashSet<>(aliases.size() * 2 + 2);
-
-        if (this.registerIntoDispatcher(pluginLiteral, true)) {
+        final boolean registerNamespaced = !namespace.equals("bukkit") && !namespace.equals("minecraft") && !namespace.equals("spigot") && !namespace.equals("paper") && !namespace.equals("cleanpaper");
+        if (registerNamespaced && this.registerIntoDispatcher(pluginLiteral, true)) {
             registeredLabels.add(pluginLiteral.getLiteral());
         }
         if (this.registerIntoDispatcher(node, true)) { // Plugin commands should override vanilla commands
@@ -114,7 +114,7 @@ public class PaperCommands implements Commands, PaperRegistrar<LifecycleEventOwn
             if (this.registerCopy(alias, pluginLiteral, meta)) {
                 registeredAliases.add(alias);
             }
-            if (this.registerCopy(namespace + ":" + alias, pluginLiteral, meta)) {
+            if (registerNamespaced && this.registerCopy(namespace + ":" + alias, pluginLiteral, meta)) {
                 registeredAliases.add(namespace + ":" + alias);
             }
         }

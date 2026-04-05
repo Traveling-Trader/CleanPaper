@@ -17,7 +17,7 @@ public class ReloadCommand extends BukkitCommand {
         this.description = "Reloads the server configuration and plugins";
         this.usageMessage = "/reload [permissions|commands|confirm]"; // Paper
         this.setPermission("bukkit.command.reload");
-        this.setAliases(Arrays.asList("rl"));
+        this.setAliases(Collections.emptyList());
     }
 
     @org.jetbrains.annotations.ApiStatus.Internal // Paper
@@ -48,7 +48,7 @@ public class ReloadCommand extends BukkitCommand {
             }
         }
         if (!confirmed) {
-            Command.broadcastCommandMessage(sender, text("Are you sure you wish to reload your server? This command will be removed soon. Doing so may cause bugs and memory leaks. It is recommended to restart instead of using /bukkit:reload. To confirm, please type ", net.kyori.adventure.text.format.NamedTextColor.RED).append(text("/bukkit:reload confirm", net.kyori.adventure.text.format.NamedTextColor.YELLOW)));
+            Command.broadcastCommandMessage(sender, text("Are you sure you wish to reload your server? This command will be removed soon. Doing so may cause bugs and memory leaks. It is recommended to restart instead of using /reload. To confirm, please type ", net.kyori.adventure.text.format.NamedTextColor.RED).append(text("/reload confirm", net.kyori.adventure.text.format.NamedTextColor.YELLOW)));
             return true;
         }
 

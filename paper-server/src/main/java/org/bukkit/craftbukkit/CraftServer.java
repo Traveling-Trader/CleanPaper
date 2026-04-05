@@ -427,15 +427,8 @@ public final class CraftServer implements Server {
         YamlConfiguration configurationDefaults = YamlConfiguration.loadConfiguration(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("configurations/bukkit.yml"), StandardCharsets.UTF_8));
         this.configuration.setDefaults(configurationDefaults);
         this.configuration.options().setHeader(configurationDefaults.options().getHeader());
-        ConfigurationSection legacyAlias = null;
-        if (!this.configuration.isString("aliases")) {
-            legacyAlias = this.configuration.getConfigurationSection("aliases");
-            this.configuration.set("aliases", "now-in-commands.yml");
-        }
+        this.configuration.set("aliases", null);
         this.saveConfig();
-        if (this.getCommandsConfigFile().isFile()) {
-            legacyAlias = null;
-        }
         this.commandsConfiguration = YamlConfiguration.loadConfiguration(this.getCommandsConfigFile());
         this.commandsConfiguration.options().copyDefaults(true);
         // Paper start - don't enforce icanhasbukkit default if alias block exists
@@ -446,25 +439,6 @@ public final class CraftServer implements Server {
         this.commandsConfiguration.options().setHeader(commandsDefaults.options().getHeader());
         this.saveCommandsConfig();
 
-        // Migrate aliases from old file and add previously implicit $1- to pass all arguments
-        if (legacyAlias != null) {
-            ConfigurationSection aliases = this.commandsConfiguration.createSection("aliases");
-            for (String key : legacyAlias.getKeys(false)) {
-                List<String> commands = new ArrayList<>();
-
-                if (legacyAlias.isList(key)) {
-                    for (String command : legacyAlias.getStringList(key)) {
-                        commands.add(command + " $1-");
-                    }
-                } else {
-                    commands.add(legacyAlias.getString(key) + " $1-");
-                }
-
-                aliases.set(key, commands);
-            }
-        }
-
-        this.saveCommandsConfig();
         this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
         this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
         this.overrideSpawnLimits();
@@ -936,6 +910,7 @@ public final class CraftServer implements Server {
 
         try {
             if (results.getContext().getNodes().isEmpty()) {
+                rawSender.sendMessage(org.spigotmc.SpigotConfig.unknownCommandMessage);
                 return false;
             }
             Commands.validateParseResults(results);
@@ -1118,7 +1093,7 @@ public final class CraftServer implements Server {
 
     @SuppressWarnings({ "unchecked", "finally" })
     private void loadCustomPermissions() {
-        File file = new File(this.configuration.getString("settings.permissions-file"));
+        File file = new File("configs/permissions.yml");
         FileInputStream stream;
 
         try {
@@ -1148,7 +1123,6 @@ public final class CraftServer implements Server {
         }
 
         if (perms == null) {
-            this.getLogger().log(Level.INFO, "Server permissions file " + file + " is empty, ignoring it");
             return;
         }
 

@@ -23,6 +23,10 @@ public class Main {
     // Paper end - Reset loggers after shutdown
 
     public static void main(String[] args) {
+        // CleanPaper start - ensure directories exist
+        new File("configs").mkdirs();
+        new File("data").mkdirs();
+        // CleanPaper end
         if (System.getProperty("jdk.nio.maxCachedBufferSize") == null) System.setProperty("jdk.nio.maxCachedBufferSize", "262144"); // Paper - cap per-thread NIO cache size; https://www.evanjones.ca/java-bytebuffer-leak.html
         OptionParser parser = new OptionParser() {
             {
@@ -31,7 +35,7 @@ public class Main {
                 this.acceptsAll(asList("c", "config"), "Properties file to use")
                         .withRequiredArg()
                         .ofType(File.class)
-                        .defaultsTo(new File("server.properties"))
+                        .defaultsTo(new File("configs/server.properties"))
                         .describedAs("Properties file");
 
                 this.acceptsAll(asList("P", "plugins"), "Plugin directory to use")
@@ -114,13 +118,13 @@ public class Main {
                 this.acceptsAll(asList("b", "bukkit-settings"), "File for bukkit settings")
                         .withRequiredArg()
                         .ofType(File.class)
-                        .defaultsTo(new File("bukkit.yml"))
+                        .defaultsTo(new File("configs/bukkit.yml"))
                         .describedAs("Yml file");
 
                 this.acceptsAll(asList("C", "commands-settings"), "File for command settings")
                         .withRequiredArg()
                         .ofType(File.class)
-                        .defaultsTo(new File("commands.yml"))
+                        .defaultsTo(new File("configs/commands.yml"))
                         .describedAs("Yml file");
 
                 this.accepts("forceUpgrade", "Whether to force a world upgrade");
@@ -142,7 +146,7 @@ public class Main {
                 this.acceptsAll(asList("S", "spigot-settings"), "File for spigot settings")
                         .withRequiredArg()
                         .ofType(File.class)
-                        .defaultsTo(new File("spigot.yml"))
+                        .defaultsTo(new File("configs/spigot.yml"))
                         .describedAs("Yml file");
 
                 this.acceptsAll(asList("paper-dir", "paper-settings-directory"), "Directory for Paper settings")
@@ -154,7 +158,7 @@ public class Main {
                 this.acceptsAll(asList("paper", "paper-settings"), "File for Paper settings")
                         .withRequiredArg()
                         .ofType(File.class)
-                        .defaultsTo(new File("paper.yml"))
+                        .defaultsTo(new File("configs/paper.yml"))
                         .describedAs("Yml file");
 
                 this.acceptsAll(asList("add-plugin", "add-extra-plugin-jar"), "Specify paths to extra plugin jars to be loaded in addition to those in the plugins folder. This argument can be specified multiple times, once for each extra plugin jar path.")

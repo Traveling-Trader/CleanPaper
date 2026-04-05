@@ -41,7 +41,6 @@ public final class SparksFly {
     public SparksFly(final Server server) {
         this.mainThreadTaskQueue = new ConcurrentLinkedQueue<>();
         this.logger = Logger.getLogger(ID);
-        this.logger.log(Level.INFO, "This server bundles the spark profiler. For more information please visit https://docs.papermc.io/paper/profiling");
         this.spark = PaperSparkModule.create(Compatibility.VERSION_1_0, server, this.logger, new PaperScheduler() {
             @Override
             public void executeAsync(final Runnable runnable) {
@@ -151,7 +150,7 @@ public final class SparksFly {
     }
 
     private void registerCommand(final Server server) {
-        server.getCommandMap().register(COMMAND_NAME, "paper", new CommandImpl(COMMAND_NAME, this.spark.getPermissions()));
+        server.getCommandMap().register(COMMAND_NAME, "cleanpaper", new CommandImpl(COMMAND_NAME, this.spark.getPermissions()));
     }
 
     public void tickStart() {

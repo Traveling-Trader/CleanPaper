@@ -96,7 +96,6 @@ public class PluginInitializerManager {
     }
 
     public static void load(OptionSet optionSet) throws Exception {
-        LOGGER.info("Initializing plugins...");
         // We have to load the bukkit configuration inorder to get the update folder location.
         io.papermc.paper.plugin.PluginInitializerManager pluginSystem = io.papermc.paper.plugin.PluginInitializerManager.init(optionSet);
 

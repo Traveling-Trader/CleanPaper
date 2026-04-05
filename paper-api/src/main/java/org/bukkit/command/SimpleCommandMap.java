@@ -32,13 +32,10 @@ public class SimpleCommandMap implements CommandMap {
 
     private void setDefaultCommands() {
         final ReloadCommand reload = new ReloadCommand("reload");
-        this.knownCommands.put("bukkit:reload", reload);
-        this.knownCommands.put("bukkit:rl", reload);
-        register("bukkit", new co.aikar.timings.TimingsCommand("timings"));
     }
 
     public void setFallbackCommands() {
-        register("bukkit", new HelpCommand());
+        register("cleanpaper", new HelpCommand());
     }
 
     /**
@@ -101,7 +98,9 @@ public class SimpleCommandMap implements CommandMap {
      * @return true if command was registered, false otherwise.
      */
     private synchronized boolean register(@NotNull String label, @NotNull Command command, boolean isAlias, @NotNull String fallbackPrefix) {
-        knownCommands.put(fallbackPrefix + ":" + label, command);
+        if (!fallbackPrefix.equals("bukkit") && !fallbackPrefix.equals("minecraft") && !fallbackPrefix.equals("cleanpaper") && !fallbackPrefix.equals("spigot")) {
+            knownCommands.put(fallbackPrefix + ":" + label, command);
+        }
         // Paper start
         Command known = knownCommands.get(label);
         if ((command instanceof BukkitCommand || isAlias) && (known != null && !known.canBeOverriden())) {

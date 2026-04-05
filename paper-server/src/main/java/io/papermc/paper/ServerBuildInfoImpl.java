@@ -21,7 +21,8 @@ public record ServerBuildInfoImpl(
     OptionalInt buildNumber,
     Instant buildTime,
     Optional<String> gitBranch,
-    Optional<String> gitCommit
+    Optional<String> gitCommit,
+    String cleanPaperVersion
 ) implements ServerBuildInfo {
     private static final String ATTRIBUTE_BRAND_ID = "Brand-Id";
     private static final String ATTRIBUTE_BRAND_NAME = "Brand-Name";
@@ -29,8 +30,9 @@ public record ServerBuildInfoImpl(
     private static final String ATTRIBUTE_BUILD_NUMBER = "Build-Number";
     private static final String ATTRIBUTE_GIT_BRANCH = "Git-Branch";
     private static final String ATTRIBUTE_GIT_COMMIT = "Git-Commit";
+    private static final String ATTRIBUTE_CLEANPAPER_VERSION = "CleanPaper-Version";
 
-    private static final String BRAND_PAPER_NAME = "Paper";
+    private static final String BRAND_PAPER_NAME = "CleanPaper";
 
     private static final String BUILD_DEV = "DEV";
 
@@ -55,7 +57,8 @@ public record ServerBuildInfoImpl(
                 .map(Instant::parse)
                 .orElse(Main.BOOT_TIME),
             getManifestAttribute(manifest, ATTRIBUTE_GIT_BRANCH),
-            getManifestAttribute(manifest, ATTRIBUTE_GIT_COMMIT)
+            getManifestAttribute(manifest, ATTRIBUTE_GIT_COMMIT),
+            getManifestAttribute(manifest, ATTRIBUTE_CLEANPAPER_VERSION).orElse("1.0") // Default if missing
         );
     }
 
@@ -67,33 +70,10 @@ public record ServerBuildInfoImpl(
     @Override
     public @NotNull String asString(final @NotNull StringRepresentation representation) {
         final StringBuilder sb = new StringBuilder();
+        sb.append(this.cleanPaperVersion);
+        sb.append('(');
         sb.append(this.minecraftVersionId);
-        sb.append('-');
-        if (this.buildNumber.isPresent()) {
-            sb.append(this.buildNumber.getAsInt());
-        } else {
-            sb.append(BUILD_DEV);
-        }
-        final boolean hasGitBranch = this.gitBranch.isPresent();
-        final boolean hasGitCommit = this.gitCommit.isPresent();
-        if (hasGitBranch || hasGitCommit) {
-            sb.append('-');
-        }
-        if (hasGitBranch && representation == StringRepresentation.VERSION_FULL) {
-            sb.append(this.gitBranch.get());
-            if (hasGitCommit) {
-                sb.append('@');
-            }
-        }
-        if (hasGitCommit) {
-            sb.append(this.gitCommit.get());
-        }
-        if (representation == StringRepresentation.VERSION_FULL) {
-            sb.append(' ');
-            sb.append('(');
-            sb.append(this.buildTime.truncatedTo(ChronoUnit.SECONDS));
-            sb.append(')');
-        }
+        sb.append(')');
         return sb.toString();
     }
 

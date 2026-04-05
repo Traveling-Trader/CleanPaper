@@ -33,18 +33,11 @@ public class SpigotConfig {
 
     private static File CONFIG_FILE;
     private static final String HEADER = """
-        This is the Spigot configuration file for Paper.
+        This is the Spigot configuration file for CleanPaper.
         As you can see, there's tons to configure. Some options may impact gameplay, so use
         with caution, and make sure you know what each option does before configuring.
         
-        If you need help with the configuration or have any questions related to Paper,
-        join us in our Discord or check the docs page.
-        
-        File Reference: https://docs.papermc.io/paper/reference/spigot-configuration/
-        Docs: https://docs.papermc.io/
-        Discord: https://discord.gg/papermc
-        Website: https://papermc.io/
-        """;
+        File Reference: https://docs.papermc.io/paper/reference/spigot-configuration/""";
     /*========================================================================*/
     public static YamlConfiguration config;
     static int version;
@@ -66,7 +59,7 @@ public class SpigotConfig {
         SpigotConfig.config.options().copyDefaults(true);
 
         SpigotConfig.commands = new HashMap<>();
-        SpigotConfig.commands.put("spigot", new SpigotCommand("spigot"));
+        // SpigotConfig.commands.put("spigot", new SpigotCommand("spigot")); // CleanPaper - remove spigot command
 
         SpigotConfig.version = SpigotConfig.getInt("config-version", 12);
         SpigotConfig.set("config-version", 12);
@@ -75,7 +68,7 @@ public class SpigotConfig {
 
     public static void registerCommands() {
         for (Map.Entry<String, Command> entry : SpigotConfig.commands.entrySet()) {
-            MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "Spigot", entry.getValue());
+            MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "cleanpaper", entry.getValue());
         }
     }
 
@@ -226,10 +219,6 @@ public class SpigotConfig {
                 }
             }
         }
-    }
-
-    private static void tpsCommand() {
-        SpigotConfig.commands.put("tps", new TicksPerSecondCommand("tps"));
     }
 
     public static int playerSample;

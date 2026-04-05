@@ -43,13 +43,15 @@ public final class PaperBootstrap {
                 osName,
                 osVersion,
                 osArch
-            ),
+            )
+/*
             String.format(
                 "Loading %s %s for Minecraft %s",
                 bi.brandName(),
                 bi.asString(ServerBuildInfo.StringRepresentation.VERSION_FULL),
                 bi.minecraftVersionId()
             )
+*/
         );
     }
 }

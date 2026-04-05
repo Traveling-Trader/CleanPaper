@@ -13,6 +13,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -49,7 +50,7 @@ public class VersionCommand extends BukkitCommand {
         this.description = "Gets the version of this server including any plugins in use";
         this.usageMessage = "/version [plugin name]";
         this.setPermission("bukkit.command.version");
-        this.setAliases(Arrays.asList("ver", "about"));
+        this.setAliases(Collections.emptyList());
     }
 
     @Override
@@ -194,7 +195,6 @@ public class VersionCommand extends BukkitCommand {
                 return;
             }
             versionWaiters.add(sender);
-            sender.sendMessage(Component.text("Checking version, please wait...", NamedTextColor.WHITE, TextDecoration.ITALIC)); // Paper
             if (!versionTaskStarted) {
                 versionTaskStarted = true;
                 new Thread(new Runnable() {
@@ -255,11 +255,17 @@ public class VersionCommand extends BukkitCommand {
     // Paper start
     private void setVersionMessage(final @NotNull Component msg) {
         lastCheck = System.currentTimeMillis();
-        final Component message = Component.textOfChildren(
-            Component.text(Bukkit.getVersionMessage(), NamedTextColor.WHITE),
-            Component.newline(),
-            msg
-        );
+        final Component versionMsg = Component.text(Bukkit.getVersionMessage(), NamedTextColor.WHITE);
+        final Component message;
+        if (msg.equals(Component.empty())) {
+            message = versionMsg;
+        } else {
+            message = Component.textOfChildren(
+                versionMsg,
+                Component.newline(),
+                msg
+            );
+        }
         this.versionMessage = Component.text()
             .append(message)
             .hoverEvent(Component.text("Click to copy to clipboard", NamedTextColor.WHITE))

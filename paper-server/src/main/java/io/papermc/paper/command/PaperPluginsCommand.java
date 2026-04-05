@@ -42,9 +42,6 @@ public class PaperPluginsCommand {
     private static final Component SERVER_PLUGIN_INFO = Component.text("ℹ What is a server plugin?", INFO_COLOR)
         .append(asPlainComponents("""
                                       Server plugins can add new behavior to your server!
-                                      You can find new plugins on Paper's plugin repository, Hangar.
-                                      
-                                      https://hangar.papermc.io/
                                       """));
 
     private static final Component LEGACY_PLUGIN_INFO = Component.text("ℹ What is a legacy plugin?", INFO_COLOR)
@@ -195,7 +192,7 @@ public class PaperPluginsCommand {
         sender.sendMessage(infoMessage);
 
         if (!paperPlugins.isEmpty()) {
-            sender.sendMessage(header("Paper Plugins", 0x0288D1, sizePaperPlugins, hasAllPluginTypes));
+            sender.sendMessage(header("CleanPaper Plugins", 0x0288D1, sizePaperPlugins, hasAllPluginTypes));
         }
 
         for (final Component component : formatProviders(paperPlugins)) {
