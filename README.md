@@ -8,13 +8,13 @@ Original [Paper](https://github.com/PaperMC/Paper) by [PaperMC](https://papermc.
 
 ## What was changed / removed:
 
-- Updated files structure:
-    - All configurations files(`bukkit.yml`, `commands.yml`, `eula.txt`, `help.yml`, `paper-global.yml`, `paper-world-defaults.yml`, `permissions.yml`, `server.properties`, `spigot.yml`) moved to the `configs/` folder;
-    - All data files(`banned-ips.json`, `banned-players.json`, `ops.json`, `usercache.json`, `whitelist.json`) moved to the `data/` folder;
+- Updated file structure:
+    - All configuration files (`bukkit.yml`, `commands.yml`, `eula.txt`, `help.yml`, `paper-global.yml`, `paper-world-defaults.yml`, `permissions.yml`, `server.properties`, `spigot.yml`) moved to the `configs/` folder;
+    - All data files (`banned-ips.json`, `banned-players.json`, `ops.json`, `usercache.json`, `whitelist.json`) moved to the `data/` folder;
     - Deleted `version_history.json`;
 - Deleted bStats analytics;
 - Removed server offline-mode message;
-- Removed commands aliases;
+- Removed command aliases;
 - And some other minor changes.
 
 ## Download & Running
